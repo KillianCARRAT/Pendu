@@ -84,11 +84,11 @@ public class Pendu extends Application {
 
     /**
      * initialise les attributs (créer le modèle, charge les images, crée le chrono
-     * ...)
+     * ...);pklmM<>?
      */
     @Override
     public void init() {
-        this.modelePendu = new MotMystere("/usr/share/dict/french", 3, 10, MotMystere.FACILE, 10);
+        this.modelePendu = new MotMystere("./test/french", 3, 10, MotMystere.FACILE, 10);
         this.lesImages = new ArrayList<Image>();
         this.chargerImages("./img");
         // A terminer d'implementer
@@ -130,19 +130,28 @@ public class Pendu extends Application {
 
         this.imageEnCours = 0;
 
+        this.motCrypte = new Text(this.modelePendu.getMotCrypte());
+        this.motCrypte.setFont(Font.font(20));
+
 
     }
 
-    public void initialiseClavier(){
+    public TilePane initialiseClavier(){
         String res = "abcdefghijklmnopqrstuvwxyz-";
 
         // Convertir la chaîne en un tableau de caractères
         char[] charArray = res.toCharArray();
+        TilePane tilePane = new TilePane();
 
         // Convertir le tableau de caractères en ArrayList de String
         for (char c : charArray) {
-            
+            Button button = new Button(String.valueOf(c));
+            button.setOnAction(new ControleurLettres(this.modelePendu, this));
+            tilePane.getChildren().add(button);
         }
+
+        return tilePane;
+        
     }
 
     /**
@@ -161,8 +170,8 @@ public class Pendu extends Application {
     private BorderPane titre() {
         BorderPane top = new BorderPane();
 
-        Label label = new Label("Jeu du Pendu");
-        label.setMinWidth(100);
+        Text label = new Text("Jeu du Pendu");
+        label.setFont(new Font("Arial", 40));
         top.setLeft(label);
 
         HBox bout = new HBox();
@@ -219,6 +228,7 @@ public class Pendu extends Application {
  
         ((ToggleButton) vbox.getChildren().get(0)).setSelected(true);
         TitledPane rad = new TitledPane("Niveau de difficulté", vbox);
+        rad.setCollapsible(false);
 
         return rad;
     }
@@ -235,19 +245,37 @@ public class Pendu extends Application {
     }
 
     public void modeJeu() {
-        BorderPane centre = new BorderPane();
-        centre.setTop(this.motCrypte);
+        HBox centre = new HBox();
+
+
+        //Partie gauche
+        VBox encore = new VBox();
+        Text mC = this.motCrypte;
         this.dessin  = new ImageView(this.lesImages.get(this.imageEnCours));
-        centre.setCenter(this.dessin);
+        this.dessin.setPreserveRatio(true);
+
+        TilePane clavier = initialiseClavier();
+        clavier.setPadding(new Insets(10));
+
+        encore.setSpacing(20);
+        encore.setPadding(new Insets(10, 20, 10, 20));
+        encore.getChildren().addAll(mC, this.dessin, clavier);
+        encore.setAlignment(Pos.TOP_CENTER);
+
 
         //Cote droit
         VBox map = new VBox();
         Button bou = new Button("Nouveau mot");
-        map.getChildren().addAll(this.leNiveau, this.chrono, bou);
-        map.setSpacing(5);
+        Text vc = new Text("Difficulté " + this.leNiveau.getText());
+        vc.setFont(new Font("Arial", 20));
+
+        TitledPane ch = new TitledPane("Chronomètre", this.chrono);
+        ch.setCollapsible(false);
+        map.getChildren().addAll(vc, ch, bou);
+        map.setSpacing(10);
         map.setPadding(new Insets(10));
-        
-        centre.setRight(map);
+
+        centre.getChildren().addAll(encore, map);
         this.panelCentral.setCenter(centre);
     }
 
@@ -258,6 +286,7 @@ public class Pendu extends Application {
     /** lance une partie */
     public void lancePartie() {
         this.modeJeu();
+        this.chrono.start();
     }
 
     /**
@@ -279,13 +308,12 @@ public class Pendu extends Application {
      * @return le chronomètre du jeu
      */
     public Chronometre getChrono() {
-        // A implémenter
-        return null; // A enlever
+        return this.chrono;
     }
 
     public Alert popUpPartieEnCours() {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION,
-                "La partie est en cours!\n Etes-vous sûr de l'interrompre ?", ButtonType.YES, ButtonType.NO);
+                "La partie est en cours! Etes-vous sûr de l'interrompre ?", ButtonType.YES, ButtonType.NO);
         alert.setTitle("Attention");
         return alert;
     }
