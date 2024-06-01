@@ -22,7 +22,8 @@ public class ControleurLettres implements EventHandler<ActionEvent> {
      * @param vuePendu vue du jeu
      */
     ControleurLettres(MotMystere modelePendu, Pendu vuePendu){
-        // A implémenter
+        this.modelePendu = modelePendu;
+        this.vuePendu = vuePendu;
     }
 
     /**
@@ -31,7 +32,25 @@ public class ControleurLettres implements EventHandler<ActionEvent> {
      * @param actionEvent l'événement
      */
     @Override
-    public void handle(ActionEvent actionEvent) {
-        // A implémenter
+    public void handle(ActionEvent event) {
+        Button bouton = (Button) event.getSource();
+        char lettre = bouton.getText().charAt(0);
+        bouton.setDisable(true);
+
+        modelePendu.essaiLettre(lettre);
+
+        this.vuePendu.majAffichage();
+
+        // Vérifie si le joueur a gagné
+        if (this.modelePendu.gagne()) {
+            this.vuePendu.popUpMessageGagne();
+            this.vuePendu.getChrono().stop();
+        }
+
+        // Vérifie si le joueur a perdu
+        if (this.modelePendu.perdu()) {
+            this.vuePendu.popUpMessagePerdu();
+            this.vuePendu.getChrono().stop();
+        }
     }
 }

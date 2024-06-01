@@ -124,7 +124,7 @@ public class MotMystere {
             // dernière lettre cachée
         }
         this.nbEerreursMax = nbErreursMax;
-         this.nbErreursRestantes = nbErreursMax;
+        this.nbErreursRestantes = nbErreursMax;
     }
 
     /**
@@ -161,7 +161,7 @@ public class MotMystere {
      */
     public void setNiveau(int niveau){
         this.niveau = niveau;
-    }
+        }
 
     /**
      * @return le mot avec les lettres trouvées affichées et des étoiles pour les lettres non trouvées
@@ -228,12 +228,15 @@ public class MotMystere {
         int nbNouvelles = 0;
         char[] aux = this.motCrypte.toCharArray();
         for (int i=0; i<this.motATrouver.length(); i++){
+            System.out.println(this.motATrouver.charAt(i) +" " +lettre);
             if (this.motATrouver.charAt(i) == lettre && this.motCrypte.charAt(i) == '*'){
+                System.out.println("passed");
                 nbNouvelles += 1;
                 aux[i] = lettre;
             }
         }
         this.motCrypte = String.valueOf(aux);
+        System.out.println(this.motCrypte.toString() + "\n" + this.motATrouver.toString());
         this.nbLettresRestantes -= nbNouvelles;
         this.lettresEssayees.add(lettre+"");
         // Le nombre d'essais augmente de 1
@@ -244,6 +247,8 @@ public class MotMystere {
         }
         return nbNouvelles;
     }
+
+    
 
     /**
      * @return une chaine de caractère donnant l'état du jeu

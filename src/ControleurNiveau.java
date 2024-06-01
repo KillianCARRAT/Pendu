@@ -1,6 +1,7 @@
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.RadioButton;
+import javafx.scene.text.Text;
 
 /**
  * Controleur des radio boutons gérant le niveau
@@ -34,7 +35,7 @@ public class ControleurNiveau implements EventHandler<ActionEvent> {
         if (nomDuRadiobouton.equals("Facile")){
             this.modelePendu.setNiveau(MotMystere.FACILE);
         }
-        else if (nomDuRadiobouton.equals("Moyen")){
+        else if (nomDuRadiobouton.equals("Médium")){
             this.modelePendu.setNiveau(MotMystere.MOYEN);
         }
         else if (nomDuRadiobouton.equals("Difficile")){
