@@ -86,9 +86,9 @@ public class Pendu extends Application {
     @Override
     public void init() {
         this.modelePendu = new MotMystere("./test/french", 3, 10, MotMystere.FACILE, 10);
-        this.lesImages = new ArrayList<Image>();
+        this.lesImages = new ArrayList<>();
         this.chargerImages("./img");
-        // A terminer d'implementer
+
         this.boutonMaison = new Button();
         ImageView imgHome = new ImageView(this.lesImages.get(11));
         imgHome.setFitHeight(20);
@@ -115,18 +115,20 @@ public class Pendu extends Application {
 
         this.panelCentral = new BorderPane();
 
-        this.niveaux = new ArrayList<>();
-        this.niveaux.add("Facile");
-        this.niveaux.add("Médium");
-        this.niveaux.add("Difficile");
-        this.niveaux.add("Expert");
-
+        this.niveaux = Arrays.asList("Facile", "Médium", "Difficile", "Expert");
         this.leNiveau = new Text(this.niveaux.get(0));
 
         this.motCrypte = new Text(this.modelePendu.getMotCrypte());
         this.motCrypte.setFont(Font.font(20));
 
+        this.pg = new ProgressBar(0.0);
+        this.pg.setPrefWidth(300);
+
+        bInfo.setOnAction(e -> popUpReglesDuJeu().showAndWait());
+
     }
+
+    
 
     public TilePane initialiseClavier() {
         String res = "ABCDEFGHIJKLMNOPQRSTUVWXYZ-";
@@ -239,7 +241,6 @@ public class Pendu extends Application {
 
         // Partie gauche
         VBox encore = new VBox();
-        Text mC = this.motCrypte;
         this.dessin = new ImageView(
                 this.lesImages.get(this.modelePendu.getNbErreursMax() - modelePendu.getNbErreursRestants()));
         this.dessin.setPreserveRatio(true);
@@ -249,7 +250,7 @@ public class Pendu extends Application {
 
         encore.setSpacing(20);
         encore.setPadding(new Insets(10, 20, 10, 20));
-        encore.getChildren().addAll(mC, this.dessin, clavier);
+        encore.getChildren().addAll(this.motCrypte, this.dessin, this.pg, clavier);
         encore.setAlignment(Pos.TOP_CENTER);
 
         // Cote droit
@@ -309,9 +310,11 @@ public class Pendu extends Application {
         this.dessin.setImage(
                 this.lesImages.get(this.modelePendu.getNbErreursMax() - modelePendu.getNbErreursRestants()));
         this.motCrypte.setText(this.modelePendu.getMotCrypte());
-    }
 
-    
+        int errorsMade = this.modelePendu.getNbErreursMax() - this.modelePendu.getNbErreursRestants();
+        double progress = (double) errorsMade / this.modelePendu.getNbErreursMax();
+        this.pg.setProgress(progress);
+    }
 
     /**
      * accesseur du chronomètre (pour les controleur du jeu)
@@ -330,8 +333,15 @@ public class Pendu extends Application {
     }
 
     public Alert popUpReglesDuJeu() {
-        // A implementer
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Règles du Jeu du Pendu");
+        alert.setHeaderText("Comment jouer au jeu du Pendu");
+        alert.setContentText("Les règles du jeu sont simples :\n"
+                + "1. Un mot mystère est sélectionné aléatoirement.\n"
+                + "2. Vous devez deviner les lettres du mot.\n"
+                + "3. Pour chaque lettre incorrecte, une partie du pendu est dessinée.\n"
+                + "4. Vous gagnez si vous devinez toutes les lettres avant que le dessin du pendu soit complet.\n"
+                + "5. Vous perdez si le dessin du pendu est complet avant de deviner le mot.");
         return alert;
     }
 
@@ -346,7 +356,7 @@ public class Pendu extends Application {
 
     public Alert popUpMessagePerdu() {
         // A implementer
-        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Vous avez perdu! Recommencez!", ButtonType.OK);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION, "Vous avez perdu! \nLe mot était : " + this.modelePendu.getMotATrouve(), ButtonType.OK);
         alert.setTitle("Attention");
         alert.showAndWait();
         return alert;
