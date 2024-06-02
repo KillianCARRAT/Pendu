@@ -49,10 +49,6 @@ public class Pendu extends Application {
      */
     private ProgressBar pg;
     /**
-     * le clavier qui sera géré par une classe à implémenter
-     */
-    private Clavier clavier; // ????
-    /**
      * le text qui indique le niveau de difficulté
      */
     private Text leNiveau;
