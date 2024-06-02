@@ -228,15 +228,12 @@ public class MotMystere {
         int nbNouvelles = 0;
         char[] aux = this.motCrypte.toCharArray();
         for (int i=0; i<this.motATrouver.length(); i++){
-            System.out.println(this.motATrouver.charAt(i) +" " +lettre);
             if (this.motATrouver.charAt(i) == lettre && this.motCrypte.charAt(i) == '*'){
-                System.out.println("passed");
                 nbNouvelles += 1;
                 aux[i] = lettre;
             }
         }
         this.motCrypte = String.valueOf(aux);
-        System.out.println(this.motCrypte.toString() + "\n" + this.motATrouver.toString());
         this.nbLettresRestantes -= nbNouvelles;
         this.lettresEssayees.add(lettre+"");
         // Le nombre d'essais augmente de 1

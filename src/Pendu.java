@@ -272,23 +272,18 @@ public class Pendu extends Application {
 
     public void nouveauMystere() {
         if (this.leNiveau.getText() == "Facile") {
-            System.out.println("f");
             this.modelePendu = new MotMystere("./test/french", 3, 10, MotMystere.FACILE, 10);
             this.motCrypte = new Text(this.modelePendu.getMotCrypte());
         } else if (this.leNiveau.getText() == "Médium") {
-            System.out.println("m");
             this.modelePendu = new MotMystere("./test/french", 3, 10, MotMystere.MOYEN, 10);
             this.motCrypte = new Text(this.modelePendu.getMotCrypte());
         } else if (this.leNiveau.getText() == "Difficile") {
-            System.out.println("d");
             this.modelePendu = new MotMystere("./test/french", 3, 12, MotMystere.DIFFICILE, 10);
             this.motCrypte = new Text(this.modelePendu.getMotCrypte());
         } else if (this.leNiveau.getText() == "Expert") {
-            System.out.println("e");
             this.modelePendu = new MotMystere("./test/french", 10, 25, MotMystere.EXPERT, 10);
             this.motCrypte = new Text(this.modelePendu.getMotCrypte());
         }
-        System.out.println(this.leNiveau.getText());
     }
 
     /** lance une partie */
