@@ -81,7 +81,7 @@ public class Pendu extends Application {
      */
     @Override
     public void init() {
-        this.modelePendu = new MotMystere("./test/french", 3, 10, MotMystere.FACILE, 10);
+        this.modelePendu = new MotMystere("/usr/share/dict/french", 3, 10, MotMystere.FACILE, 10);
         this.lesImages = new ArrayList<>();
         this.chargerImages("./img");
 
@@ -272,16 +272,16 @@ public class Pendu extends Application {
 
     public void nouveauMystere() {
         if (this.leNiveau.getText() == "Facile") {
-            this.modelePendu = new MotMystere("./test/french", 3, 10, MotMystere.FACILE, 10);
+            this.modelePendu = new MotMystere("/usr/share/dict/french", 3, 10, MotMystere.FACILE, 10);
             this.motCrypte = new Text(this.modelePendu.getMotCrypte());
         } else if (this.leNiveau.getText() == "Médium") {
-            this.modelePendu = new MotMystere("./test/french", 3, 10, MotMystere.MOYEN, 10);
+            this.modelePendu = new MotMystere("/usr/share/dict/french", 3, 10, MotMystere.MOYEN, 10);
             this.motCrypte = new Text(this.modelePendu.getMotCrypte());
         } else if (this.leNiveau.getText() == "Difficile") {
-            this.modelePendu = new MotMystere("./test/french", 3, 12, MotMystere.DIFFICILE, 10);
+            this.modelePendu = new MotMystere("/usr/share/dict/french", 3, 12, MotMystere.DIFFICILE, 10);
             this.motCrypte = new Text(this.modelePendu.getMotCrypte());
         } else if (this.leNiveau.getText() == "Expert") {
-            this.modelePendu = new MotMystere("./test/french", 10, 25, MotMystere.EXPERT, 10);
+            this.modelePendu = new MotMystere("/usr/share/dict/french", 10, 25, MotMystere.EXPERT, 10);
             this.motCrypte = new Text(this.modelePendu.getMotCrypte());
         }
     }
